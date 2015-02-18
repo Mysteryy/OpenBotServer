@@ -11,8 +11,6 @@ import java.net.UnknownHostException;
  */
 public class ClientHandler {
     private Socket socket;
-    private final int port = 38200;
-    private final String ipAddress = "127.0.0.1";
     private ReceiveThread receiveThread;
     private SendThread sendThread;
     private ConsumerThread consumerThread;

@@ -1,5 +1,7 @@
 package org.consumer;
 
+import com.pi4j.io.serial.Serial;
+import com.pi4j.io.serial.SerialFactory;
 import org.server.ClientHandler;
 import org.server.ReceiveThread;
 
@@ -11,9 +13,14 @@ public class ConsumerThread extends Thread {
     private ClientHandler clientHandler;
     private boolean shouldRun = true;
 
+    private Serial serial;
+
     public ConsumerThread(ReceiveThread receiveThread, ClientHandler clientHandler) {
         this.receiveThread = receiveThread;
         this.clientHandler = clientHandler;
+
+//        this.serial = SerialFactory.createInstance();
+//        serial.open(Serial.DEFAULT_COM_PORT, 38400);
     }
 
     @Override
