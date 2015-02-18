@@ -26,7 +26,7 @@ public class Server extends Thread{
             try {
                 Socket clientSocket = serverSocket.accept();
                 if(clientSocket != null){
-                    System.out.println("New Client Connnected");
+                    System.out.println("New Client Connnected: " + clientSocket.getInetAddress());
                     ClientHandler clientHandler = new ClientHandler(clientSocket);
                 }
             } catch (IOException e) {
