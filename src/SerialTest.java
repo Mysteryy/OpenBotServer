@@ -19,6 +19,7 @@ public class SerialTest {
                 System.out.print(serialDataEvent.getData());
             }
         });
+
         System.out.println("Starting serial");
         long startTime = System.currentTimeMillis();
         while(System.currentTimeMillis() - startTime < 10000){
