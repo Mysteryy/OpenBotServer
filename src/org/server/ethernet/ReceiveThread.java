@@ -63,7 +63,6 @@ public class ReceiveThread extends Thread {
                 // Wait for some data
                 String string = this.bufferedReader.readLine();
                 // Print the data out (debug purposes)
-                System.out.println("Received: " + string);
                 if (string != null) {
                     // Add the received data to the inbound queue
                     this.inboundQueue.add(string);

@@ -63,11 +63,13 @@ public class ConsumerThread extends Thread {
         // if there is a message to send to the teensy
         if(messageToTeensy != null){
             // send the message using the serial handler
+            System.out.println("To teensy: " + messageToTeensy);
             serialHandler.sendMessage(messageToTeensy);
         }
         // if there is a message to send to the client
         if(messageToClient != null){
             // send the message using the client handler
+            System.out.println("To client: " + messageToClient);
             clientHandler.sendMessage(messageToClient);
         }
     }
