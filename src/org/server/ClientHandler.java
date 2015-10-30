@@ -31,7 +31,7 @@ public class ClientHandler {
         // Create the new threads
         this.receiveThread = new ReceiveThread(this, socket);
         this.sendThread = new SendThread(this, socket);
-        this.consumerThread = new ConsumerThread(this);
+        this.consumerThread = new ConsumerThread(this, this.serialHandler);
 
         // Start the new threads
         this.receiveThread.start();

@@ -1,6 +1,7 @@
 package org.consumer;
 
 import org.server.ClientHandler;
+import org.server.serial.SerialHandler;
 
 /**
  * Created by zach on 9/11/2015.
@@ -12,6 +13,8 @@ import org.server.ClientHandler;
 public class ConsumerThread extends Thread {
     // The receiveThread is where the inbound queue is, get data from here.
     private ClientHandler clientHandler;
+    // the instance of serial handler
+    private SerialHandler serialHandler;
     // boolean to keep the thread running
     private boolean shouldRun = true;
     // The instance of the UI
@@ -21,8 +24,9 @@ public class ConsumerThread extends Thread {
      *
      * @param clientHandler the instance of Client that is being used for communication
      */
-    public ConsumerThread(ClientHandler clientHandler) {
+    public ConsumerThread(ClientHandler clientHandler, SerialHandler serialHandler) {
         this.clientHandler = clientHandler;
+        this.serialHandler = serialHandler;
     }
 
     /**
@@ -51,22 +55,20 @@ public class ConsumerThread extends Thread {
      * them as appropriate.
      */
     private void processMessage() {
-        String message = clientHandler.getMessage();
-        if (message.contains(":")) {
-            String[] splitMessage = message.split(":");
-            if (splitMessage.length == 2) {
-                String command = splitMessage[0];
-                String jointNumber = splitMessage[1];
-                System.out.println("Command Received | Command: " + command + " | Joint Number: " + jointNumber);
-                if (command.equalsIgnoreCase("Get")) {
-                    clientHandler.sendMessage("Pos:123");
-                }
-            } else if (splitMessage.length == 3) {
-                String command = splitMessage[0];
-                String jointNumber = splitMessage[1];
-                String angle = splitMessage[2];
-                System.out.println("Command: " + command + " | Joint Number: " + jointNumber + " | Angle: " + angle);
-            }
+        // if the client handler has a message, then it should be sent to the teensy over serial
+        String messageToTeensy = this.clientHandler.getMessage();
+        // if the serial handler has a message, then it should be sent to the client over socket
+        String messageToClient = this.serialHandler.getMessage();
+
+        // if there is a message to send to the teensy
+        if(messageToTeensy != null){
+            // send the message using the serial handler
+            serialHandler.sendMessage(messageToTeensy);
+        }
+        // if there is a message to send to the client
+        if(messageToClient != null){
+            // send the message using the client handler
+            clientHandler.sendMessage(messageToClient);
         }
     }
 

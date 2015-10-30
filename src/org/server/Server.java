@@ -50,6 +50,8 @@ public class Server extends Thread{
                     System.out.println("New Client Connnected: " + clientSocket.getInetAddress());
                     // spawn a new ClientHandler object to take care of the communication for this client
                     ClientHandler clientHandler = new ClientHandler(clientSocket, serialHandler);
+                    // set the serial handler to use this newly established client, meaning this client will now receive the replies
+                    serialHandler.setClientHandler(clientHandler);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
